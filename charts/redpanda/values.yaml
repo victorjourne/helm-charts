@@ -23,7 +23,6 @@
 #
 
 # Common parameters
-#
 # Override redpanda.name template
 nameOverride: ""
 # Override redpanda.fullname template
@@ -40,20 +39,21 @@ nodeSelector: {}
 # https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
 tolerations: []
 
-# Redpanda parameters
-#
+# Image
 image:
   repository: vectorized/redpanda
   # Redpanda version defaults to Chart.appVersion
   tag: ""
   # The imagePullPolicy will default to Always when the tag is 'latest'
   pullPolicy: IfNotPresent
+
 # Your license key (optional)
 license_key: ""
 license_secret_ref: {}
-# Secret name and secret key where license is stored
-# secret_name: my-secret
-# secret_key: key-where-license-is-stored
+  # Secret name and secret key where license is stored
+  # secret_name: my-secret
+  # secret_key: key-where-license-is-stored
+
 # Rack Awareness
 rackAwareness:
   # When running in multiple racks or availability zones, use the Kubernetes Node
@@ -65,7 +65,6 @@ rackAwareness:
   # this if you have your own custom Node annotation to use instead.
   nodeAnnotation: topology.kubernetes.io/zone
 
-#
 # Console
 console:
   enabled: true
@@ -77,7 +76,6 @@ console:
     create: false
   config: {}
 
-#
 # Authentication
 auth:
   # SASL configuration
@@ -122,7 +120,6 @@ tls:
       caEnabled: true
       # duration: 43800h
 
-#
 # External access configuration
 external:
   # Default external access value for each service
@@ -161,7 +158,8 @@ logging:
     # organization: your-org
     # Your cluster ID (optional)
     # clusterId: your-helm-cluster
-#
+
+# Resources
 resources:
   # Both Redpanda and Kubernetes have multiple ways to allocate resources.
   # There are also several associated parameters that impact how these resources are used by
@@ -248,8 +246,8 @@ resources:
       # Equivalent to: --reserve-memory
       # For production: 1Gi
       # reserveMemory: 200Mi
-#
-# Persistence
+
+# Storage
 storage:
   # Absolute path on host to store Redpanda's data.
   # If not specified, then `emptyDir` will be used instead.
@@ -455,6 +453,7 @@ post_upgrade_job:
   #   - secretRef:
   #       name: redpanda-aws-secrets
 
+# Statefulset
 statefulset:
   # Number of Redpanda brokers (recommend setting this to the number of nodes in the cluster)
   replicas: 3
@@ -536,11 +535,12 @@ serviceAccount:
   name: ""
 # Role Based Access Control
 rbac:
-  # enable this for features that need extra priveleges
+  # enable this for features that need extra privileges
   enabled: false
   # annotations to add to the rbac resources
   annotations: {}
 
+# Tuning
 tuning: {}
   # This section contains Redpanda tuning parameters.
   # Each parameter below is set to their default values.
@@ -580,11 +580,9 @@ tuning: {}
   #   tune_transparent_hugepages
   #   tune_coredump
 
-### Overrides
-#
+
 # This sections can be used to override global settings configured above for individual
 # listeners.
-#
 listeners:
   # Admin API listener (only one)
   admin:
@@ -673,7 +671,7 @@ listeners:
 #
 # This section allows modifying various Redpanda settings not covered in other sections above.
 # These values do not pertain to the kubernetes objects created with helm.
-# Instead these parameters get passed directly to the Redpanda binary at startup.
+# Instead, these parameters get passed directly to the Redpanda binary at startup.
 # See https://docs.redpanda.com/docs/cluster-administration/configuration/
 config:
   cluster: {}
